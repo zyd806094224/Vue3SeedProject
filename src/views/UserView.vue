@@ -1,7 +1,7 @@
 <template>
   <div class="user-view">
     <h1>用户管理</h1>
-    
+
     <!-- 登录表单 -->
     <div v-if="!isLoggedIn" class="login-form">
       <h2>用户登录</h2>
@@ -17,7 +17,7 @@
             class="form-input"
           />
         </div>
-        
+
         <div class="form-group">
           <label for="password">密码:</label>
           <input
@@ -29,25 +29,25 @@
             class="form-input"
           />
         </div>
-        
-        <BaseButton 
-          type="submit" 
-          :loading="loading" 
-          variant="primary" 
+
+        <BaseButton
+          type="submit"
+          :loading="loading"
+          variant="primary"
           size="large"
           class="submit-btn"
         >
           {{ loading ? '登录中...' : '登录' }}
         </BaseButton>
       </form>
-      
+
       <div class="demo-info">
         <p><strong>演示信息:</strong></p>
         <p>用户名: demo</p>
         <p>密码: 123456</p>
       </div>
     </div>
-    
+
     <!-- 用户信息显示 -->
     <div v-else class="user-info">
       <h2>用户信息</h2>
@@ -57,7 +57,7 @@
         <p><strong>角色:</strong> {{ userInfo?.role || 'N/A' }}</p>
         <p><strong>创建时间:</strong> {{ userInfo?.createdAt || 'N/A' }}</p>
       </div>
-      
+
       <div class="actions">
         <BaseButton @click="handleLogout" variant="danger">登出</BaseButton>
         <BaseButton @click="goToProfile" variant="secondary">查看个人资料</BaseButton>
@@ -103,9 +103,9 @@ const handleLogin = async () => {
     appStore.showNotification('请填写用户名和密码', 'error')
     return
   }
-  
+
   loading.value = true
-  
+
   try {
     // 模拟登录API调用
     // 在实际项目中，这里应该调用真实API
@@ -113,11 +113,11 @@ const handleLogin = async () => {
       username: loginForm.value.username,
       password: loginForm.value.password
     })
-    
+
     // 更新用户状态
     userStore.login(response.token, response.userInfo)
     appStore.showNotification('登录成功', 'success')
-    
+
     // 跳转到个人资料页
     router.push('/profile')
   } catch (error: any) {
@@ -149,6 +149,7 @@ const goToProfile = () => {
   background-color: var(--bg-secondary, #f8f9fa);
   padding: 2rem;
   border-radius: 8px;
+  color: #28a745;
 }
 
 .form-group {
@@ -195,7 +196,7 @@ const goToProfile = () => {
   padding: 1.5rem;
   border-radius: 6px;
   margin: 1.5rem 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .user-info .info-card p {

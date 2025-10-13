@@ -3,7 +3,7 @@
     <h1>关于本项目</h1>
     <div class="content">
       <p>Vue3 种子项目是一个现代化的前端脚手架，旨在为开发者提供一个功能完整、结构清晰的项目起点。</p>
-      
+
       <h2>项目架构</h2>
       <div class="architecture">
         <div class="architecture-item">
@@ -16,7 +16,7 @@
             <li><strong>Pinia</strong> - Vue.js 的轻量级状态管理库</li>
           </ul>
         </div>
-        
+
         <div class="architecture-item">
           <h3>开发工具</h3>
           <ul>
@@ -27,7 +27,7 @@
           </ul>
         </div>
       </div>
-      
+
       <h2>目录结构</h2>
       <div class="directory-structure">
         <pre><code>src/
@@ -47,7 +47,7 @@
 └── main.ts           # 应用入口文件
 </code></pre>
       </div>
-      
+
       <h2>使用说明</h2>
       <div class="instructions">
         <h3>启动项目</h3>
@@ -78,6 +78,7 @@ npm run build</code></pre>
   max-width: 900px;
   margin: 0 auto;
   padding: 0 1rem;
+  color: #28a745;
 }
 
 .architecture {
