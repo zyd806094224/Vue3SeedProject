@@ -254,16 +254,7 @@ document.documentElement.setAttribute('data-theme', appStore.theme)
   }
 }
 
-/* 暗色主题样式 */
-:root[data-theme="dark"] {
-  --header-bg: #343a40;
-  --footer-bg: #343a40;
-  --text-color: #f8f9fa;
-  --border-color: #495057;
-  --hover-bg: #495057;
-  --primary-color: #0d6efd;
-  --primary-hover: #0b5ed7;
-}
+
 
 @media (max-width: 768px) {
   .header-content {
