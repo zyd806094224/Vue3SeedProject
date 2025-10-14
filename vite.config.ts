@@ -14,6 +14,6 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    open: true  // 自动打开浏览器
+    open: true // 自动打开浏览器
   }
 })

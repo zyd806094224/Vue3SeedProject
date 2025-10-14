@@ -9,7 +9,10 @@
  * @param format 格式化模板，默认为 'YYYY-MM-DD HH:mm:ss'
  * @returns 格式化后的日期字符串
  */
-export const formatDate = (date: Date | string | number, format: string = 'YYYY-MM-DD HH:mm:ss'): string => {
+export const formatDate = (
+  date: Date | string | number,
+  format: string = 'YYYY-MM-DD HH:mm:ss'
+): string => {
   const d = new Date(date)
 
   const year = d.getFullYear()
@@ -123,6 +126,6 @@ export const isValidEmail = (email: string): boolean => {
  */
 export const generateId = (prefix: string = ''): string => {
   const timestamp = Date.now().toString(36)
-  const random = Math.random().toString(36).substr(2)
+  const random = Math.random().toString(36).substring(2)
   return `${prefix}${timestamp}${random}`
 }
