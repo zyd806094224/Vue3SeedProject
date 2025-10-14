@@ -119,7 +119,7 @@ const handleLogin = async () => {
     appStore.showNotification('登录成功', 'success')
 
     // 跳转到个人资料页
-    router.push('/profile')
+    await router.push('/profile')
   } catch (error: any) {
     console.error('登录失败:', error)
     appStore.showNotification(error.message || '登录失败，请重试', 'error')
@@ -145,7 +145,8 @@ const goToProfile = () => {
   margin: 0 auto;
 }
 
-.login-form, .user-info {
+.login-form,
+.user-info {
   background-color: var(--bg-secondary, #f8f9fa);
   padding: 2rem;
   border-radius: 8px;
@@ -212,7 +213,7 @@ const goToProfile = () => {
 }
 
 /* 暗色主题样式 */
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   --bg-secondary: #495057;
   --text-primary: #f8f9fa;
   --border-color: #6c757d;
