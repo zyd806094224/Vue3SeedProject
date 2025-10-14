@@ -59,10 +59,16 @@ export const useAppStore = defineStore('app', () => {
     state.value.locale = locale
   }
 
-  // 返回 store 的状态和方法
+    // 返回 store 的状态和方法
+  const theme = computed(() => state.value.theme)
+  
   return {
     // 状态
-    ...state.value,
+    state,
+    theme, // This is now a reactive computed property
+    loading: computed(() => state.value.loading),
+    notification: computed(() => state.value.notification),
+    locale: computed(() => state.value.locale),
     // 计算属性
     isDarkTheme,
     // 方法
