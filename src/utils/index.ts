@@ -93,7 +93,7 @@ export const deepClone = <T>(obj: T): T => {
   }
 
   if (obj instanceof Array) {
-    return obj.map(item => deepClone(item)) as any
+    return obj.map((item) => deepClone(item)) as any
   }
 
   if (typeof obj === 'object') {

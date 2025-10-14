@@ -23,7 +23,9 @@
 
       <div class="buttons">
         <BaseButton @click="goToUser" variant="primary">用户管理</BaseButton>
-        <BaseButton @click="goToProfile" variant="secondary" :disabled="!isLoggedIn">个人资料</BaseButton>
+        <BaseButton @click="goToProfile" variant="secondary" :disabled="!isLoggedIn"
+          >个人资料</BaseButton
+        >
       </div>
     </div>
   </div>

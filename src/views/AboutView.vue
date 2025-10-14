@@ -2,7 +2,9 @@
   <div class="about-view">
     <h1>关于本项目</h1>
     <div class="content">
-      <p>Vue3 种子项目是一个现代化的前端脚手架，旨在为开发者提供一个功能完整、结构清晰的项目起点。</p>
+      <p>
+        Vue3 种子项目是一个现代化的前端脚手架，旨在为开发者提供一个功能完整、结构清晰的项目起点。
+      </p>
 
       <h2>项目架构</h2>
       <div class="architecture">
@@ -107,7 +109,8 @@ npm run build</code></pre>
   margin-bottom: 0.5rem;
 }
 
-.directory-structure, .instructions {
+.directory-structure,
+.instructions {
   background-color: var(--bg-secondary, #f8f9fa);
   padding: 1.5rem;
   border-radius: 8px;

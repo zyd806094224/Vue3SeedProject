@@ -1,8 +1,5 @@
 module.exports = {
-  extends: [
-    '@vue/eslint-config-typescript',
-    '@vue/eslint-config-prettier'
-  ],
+  extends: ['@vue/eslint-config-typescript', '@vue/eslint-config-prettier'],
   overrides: [
     {
       files: ['*.config.js', '*.config.cjs', '*.config.mjs', '*.config.ts', 'vite.config.ts'],
@@ -20,7 +17,7 @@ module.exports = {
     },
     {
       // 添加Vue文件的配置
-      files: ['*.vue','*.ts', '*.tsx'],
+      files: ['*.vue', '*.ts', '*.tsx'],
       parser: 'vue-eslint-parser',
       parserOptions: {
         parser: '@typescript-eslint/parser',

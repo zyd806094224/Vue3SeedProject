@@ -32,7 +32,8 @@ export const useUserStore = defineStore('user', () => {
   // 计算属性 - 根据状态计算出新值
   const isLoggedIn = computed(() => state.value.isAuthenticated)
   const userRole = computed(() => state.value.userInfo?.role || '')
-  const hasPermission = (permission: string) => computed(() => state.value.permissions.includes(permission))
+  const hasPermission = (permission: string) =>
+    computed(() => state.value.permissions.includes(permission))
 
   // 操作方法 - 修改状态的函数
   const setUserInfo = (userInfo: UserInfo) => {

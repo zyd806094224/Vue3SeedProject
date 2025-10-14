@@ -23,16 +23,8 @@
             >
               {{ isDarkTheme ? '🌞' : '🌙' }}
             </button>
-            <button
-              v-if="isLoggedIn"
-              @click="handleLogout"
-              class="logout-btn"
-            >
-              登出
-            </button>
-            <RouterLink v-else to="/user" class="login-link">
-              登录
-            </RouterLink>
+            <button v-if="isLoggedIn" @click="handleLogout" class="logout-btn">登出</button>
+            <RouterLink v-else to="/user" class="login-link"> 登录 </RouterLink>
           </div>
         </div>
       </div>
@@ -170,7 +162,8 @@ document.documentElement.setAttribute('data-theme', appStore.theme)
   background-color: var(--hover-bg, #e9ecef);
 }
 
-.logout-btn, .login-link {
+.logout-btn,
+.login-link {
   background-color: var(--primary-color, #007bff);
   color: white;
   border: none;
@@ -181,7 +174,8 @@ document.documentElement.setAttribute('data-theme', appStore.theme)
   font-size: 0.9rem;
 }
 
-.logout-btn:hover, .login-link:hover {
+.logout-btn:hover,
+.login-link:hover {
   background-color: var(--primary-hover, #0056b3);
 }
 
@@ -253,8 +247,6 @@ document.documentElement.setAttribute('data-theme', appStore.theme)
     opacity: 1;
   }
 }
-
-
 
 @media (max-width: 768px) {
   .header-content {

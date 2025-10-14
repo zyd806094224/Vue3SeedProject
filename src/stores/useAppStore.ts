@@ -43,7 +43,10 @@ export const useAppStore = defineStore('app', () => {
     state.value.loading = loading
   }
 
-  const showNotification = (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+  const showNotification = (
+    message: string,
+    type: 'success' | 'error' | 'warning' | 'info' = 'info'
+  ) => {
     state.value.notification = {
       show: true,
       message,
