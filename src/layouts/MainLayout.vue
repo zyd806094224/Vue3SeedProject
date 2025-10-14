@@ -13,6 +13,7 @@
             <RouterLink to="/about" class="nav-link">关于</RouterLink>
             <RouterLink to="/user" class="nav-link">用户</RouterLink>
             <RouterLink to="/profile" class="nav-link">个人资料</RouterLink>
+            <RouterLink to="/virtualList" class="nav-link">列表</RouterLink>
           </nav>
           <!-- 用户操作区域 -->
           <div class="user-actions">
