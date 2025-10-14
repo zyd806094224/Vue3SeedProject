@@ -59,9 +59,9 @@ export const useAppStore = defineStore('app', () => {
     state.value.locale = locale
   }
 
-    // 返回 store 的状态和方法
+  // 返回 store 的状态和方法
   const theme = computed(() => state.value.theme)
-  
+
   return {
     // 状态
     state,
