@@ -11,14 +11,14 @@
  */
 export const formatDate = (date: Date | string | number, format: string = 'YYYY-MM-DD HH:mm:ss'): string => {
   const d = new Date(date)
-  
+
   const year = d.getFullYear()
   const month = String(d.getMonth() + 1).padStart(2, '0')
   const day = String(d.getDate()).padStart(2, '0')
   const hours = String(d.getHours()).padStart(2, '0')
   const minutes = String(d.getMinutes()).padStart(2, '0')
   const seconds = String(d.getSeconds()).padStart(2, '0')
-  
+
   return format
     .replace('YYYY', String(year))
     .replace('MM', month)
@@ -40,12 +40,12 @@ export const debounce = <T extends (...args: any[]) => any>(
   delay: number
 ): ((...args: Parameters<T>) => void) => {
   let timeoutId: number | null = null
-  
+
   return (...args: Parameters<T>) => {
     if (timeoutId !== null) {
       clearTimeout(timeoutId)
     }
-    
+
     timeoutId = window.setTimeout(() => {
       func(...args)
     }, delay)
@@ -64,10 +64,10 @@ export const throttle = <T extends (...args: any[]) => any>(
   delay: number
 ): ((...args: Parameters<T>) => void) => {
   let lastExecTime = 0
-  
+
   return (...args: Parameters<T>) => {
     const currentTime = Date.now()
-    
+
     if (currentTime - lastExecTime >= delay) {
       func(...args)
       lastExecTime = currentTime
@@ -84,15 +84,15 @@ export const deepClone = <T>(obj: T): T => {
   if (obj === null || typeof obj !== 'object') {
     return obj
   }
-  
+
   if (obj instanceof Date) {
     return new Date(obj.getTime()) as any
   }
-  
+
   if (obj instanceof Array) {
     return obj.map(item => deepClone(item)) as any
   }
-  
+
   if (typeof obj === 'object') {
     const clonedObj: any = {}
     for (const key in obj) {
@@ -102,7 +102,7 @@ export const deepClone = <T>(obj: T): T => {
     }
     return clonedObj
   }
-  
+
   return obj as any
 }
 

@@ -1,15 +1,11 @@
 <template>
   <div class="profile-view">
     <h1>个人资料</h1>
-    
+
     <div v-if="isLoggedIn" class="profile-content">
       <div class="profile-header">
         <div class="avatar">
-          <img 
-            :src="userInfo?.avatar || defaultAvatar" 
-            :alt="userInfo?.name" 
-            class="avatar-img"
-          />
+          <img :src="userInfo?.avatar || defaultAvatar" :alt="userInfo?.name" class="avatar-img" />
         </div>
         <div class="profile-basic-info">
           <h2>{{ userInfo?.name }}</h2>
@@ -17,7 +13,7 @@
           <p class="role">角色: {{ userInfo?.role }}</p>
         </div>
       </div>
-      
+
       <div class="profile-details">
         <h3>详细信息</h3>
         <div class="info-grid">
@@ -35,14 +31,14 @@
           </div>
         </div>
       </div>
-      
+
       <div class="profile-actions">
         <BaseButton @click="editProfile" variant="primary">编辑资料</BaseButton>
         <BaseButton @click="changePassword" variant="secondary">修改密码</BaseButton>
         <BaseButton @click="deleteAccount" variant="danger">删除账户</BaseButton>
       </div>
     </div>
-    
+
     <div v-else class="not-logged-in">
       <h2>请先登录</h2>
       <p>您需要登录后才能查看个人资料</p>
@@ -162,7 +158,7 @@ const goToLogin = () => {
   padding: 0.75rem;
   background-color: white;
   border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .info-item label {
@@ -203,7 +199,7 @@ const goToLogin = () => {
 }
 
 /* 暗色主题样式 */
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   --bg-secondary: #495057;
   --text-primary: #f8f9fa;
   --text-secondary: #adb5bd;

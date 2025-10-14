@@ -14,7 +14,7 @@
   >
     <!-- 加载状态图标 -->
     <span v-if="loading" class="button-spinner"></span>
-    
+
     <!-- 按钮内容 -->
     <span class="button-content">
       <slot />

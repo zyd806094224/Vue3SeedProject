@@ -33,16 +33,16 @@ export const useAppStore = defineStore('app', () => {
 
   // 计算属性 - 根据状态计算出新值
   const isDarkTheme = computed(() => state.value.theme === 'dark')
-  
+
   // 操作方法 - 修改状态的函数
   const setTheme = (theme: 'light' | 'dark') => {
     state.value.theme = theme
   }
-  
+
   const setLoading = (loading: boolean) => {
     state.value.loading = loading
   }
-  
+
   const showNotification = (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info') => {
     state.value.notification = {
       show: true,
@@ -50,11 +50,11 @@ export const useAppStore = defineStore('app', () => {
       type
     }
   }
-  
+
   const hideNotification = () => {
     state.value.notification.show = false
   }
-  
+
   const setLocale = (locale: string) => {
     state.value.locale = locale
   }

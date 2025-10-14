@@ -129,7 +129,7 @@ h3 {
 }
 
 /* 暗色主题样式 */
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   --bg-secondary: #495057;
   --text-primary: #f8f9fa;
 }

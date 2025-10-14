@@ -6,7 +6,7 @@
       <div class="container">
         <div class="header-content">
           <h1 class="logo">Vue3 种子项目</h1>
-          
+
           <!-- 导航菜单 -->
           <nav class="nav-menu">
             <RouterLink to="/" class="nav-link">首页</RouterLink>
@@ -14,19 +14,18 @@
             <RouterLink to="/user" class="nav-link">用户</RouterLink>
             <RouterLink to="/profile" class="nav-link">个人资料</RouterLink>
           </nav>
-          
           <!-- 用户操作区域 -->
           <div class="user-actions">
-            <button 
-              @click="toggleTheme" 
+            <button
+              @click="toggleTheme"
               class="theme-toggle"
               :title="`切换到${isDarkTheme ? '亮色' : '暗色'}主题`"
             >
               {{ isDarkTheme ? '🌞' : '🌙' }}
             </button>
-            <button 
-              v-if="isLoggedIn" 
-              @click="handleLogout" 
+            <button
+              v-if="isLoggedIn"
+              @click="handleLogout"
               class="logout-btn"
             >
               登出
@@ -54,8 +53,8 @@
     </footer>
 
     <!-- 通知组件 -->
-    <div 
-      v-if="notification.show" 
+    <div
+      v-if="notification.show"
       class="notification"
       :class="`notification--${notification.type}`"
     >
@@ -271,7 +270,7 @@ document.documentElement.setAttribute('data-theme', appStore.theme)
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .nav-menu {
     gap: 0.5rem;
     flex-wrap: wrap;

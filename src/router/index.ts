@@ -2,11 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 // 定义路由类型
-export type RouteName = 
-  | 'home'
-  | 'about'
-  | 'user'
-  | 'profile'
+export type RouteName = 'home' | 'about' | 'user' | 'profile'
 
 // 定义路由配置
 const routes = [
