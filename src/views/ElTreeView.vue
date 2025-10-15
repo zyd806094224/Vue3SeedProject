@@ -12,36 +12,40 @@
       />
     </div>
     <div class="right">
-      {{ content }}
+      <router-view />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 interface Tree {
   id: string
   label: string
+  route?: string
   children?: Tree[]
 }
 
-//接受组件传参props
+// 接受组件传参props
 const props = defineProps(['a', 'b'])
 
-//defaultProps 是用于配置 el-tree 组件的属性映射对象
-//children: 'children' 指定树节点的子节点属性名为 children
-//label: 'label' 指定树节点的标签属性名为 label
+// defaultProps 是用于配置 el-tree 组件的属性映射对象
+// children: 'children' 指定树节点的子节点属性名为 children
+// label: 'label' 指定树节点的标签属性名为 label
 const defaultProps = {
   children: 'children',
   label: 'label'
 }
 
 let content = ref('')
-//默认选中
+// 默认选中
 let defaultCheckedKeys = ['1', '3']
-//默认展开
+// 默认展开
 let defaultExpandedKeys = ref(['1', '3'])
+
+const router = useRouter()
 
 onMounted(() => {
   defaultExpandedKeys.value = ['1-1', '3-1']
@@ -50,6 +54,10 @@ onMounted(() => {
 const handleNodeClick = (data: Tree) => {
   console.log(data)
   content.value = data.label
+  if (data.route) {
+    // 使用嵌套路由，跳转到指定的子路由
+    router.push({ name: data.route })
+  }
 }
 
 const data: Tree[] = [
@@ -63,7 +71,8 @@ const data: Tree[] = [
         children: [
           {
             id: '1-1-1',
-            label: 'Level three 1-1-1'
+            label: 'Level three 1-1-1',
+            route: 'elTreeUser' // 修改为嵌套路由名称
           }
         ]
       }
@@ -79,7 +88,8 @@ const data: Tree[] = [
         children: [
           {
             id: '2-1-1',
-            label: 'Level three 2-1-1'
+            label: 'Level three 2-1-1',
+            route: 'elTreeProfile' // 修改为嵌套路由名称
           }
         ]
       },
@@ -89,7 +99,8 @@ const data: Tree[] = [
         children: [
           {
             id: '2-2-1',
-            label: 'Level three 2-2-1'
+            label: 'Level three 2-2-1',
+            route: 'elTreeAbout' // 添加更多路由示例
           }
         ]
       }
@@ -105,7 +116,8 @@ const data: Tree[] = [
         children: [
           {
             id: '3-1-1',
-            label: 'Level three 3-1-1'
+            label: 'Level three 3-1-1',
+            route: 'elTreeVirtualList' // 添加更多路由示例
           }
         ]
       },
@@ -115,7 +127,8 @@ const data: Tree[] = [
         children: [
           {
             id: '3-2-1',
-            label: 'Level three 3-2-1'
+            label: 'Level three 3-2-1',
+            route: 'elTreeTableList' // 添加更多路由示例
           }
         ]
       }
@@ -123,7 +136,8 @@ const data: Tree[] = [
   },
   {
     id: '4',
-    label: 'Level one 4'
+    label: 'Level one 4',
+    route: 'elTreeView' // 现在使用路由名称而不是路径
   }
 ]
 </script>

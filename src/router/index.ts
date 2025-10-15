@@ -40,7 +40,34 @@ const routes = [
   {
     path: '/elTreeView',
     name: 'elTreeView',
-    component: () => import('../views/ElTreeView.vue')
+    component: () => import('../views/ElTreeView.vue'),
+    children: [
+      {
+        path: 'user',
+        name: 'elTreeUser',
+        component: () => import('../views/UserView.vue')
+      },
+      {
+        path: 'profile',
+        name: 'elTreeProfile',
+        component: () => import('../views/ProfileView.vue')
+      },
+      {
+        path: 'about',
+        name: 'elTreeAbout',
+        component: () => import('../views/AboutView.vue')
+      },
+      {
+        path: 'virtualList',
+        name: 'elTreeVirtualList',
+        component: () => import('../views/VirtualListView.vue')
+      },
+      {
+        path: 'tableList',
+        name: 'elTreeTableList',
+        component: () => import('../views/TableListView.vue')
+      }
+    ]
   }
 ]
 
