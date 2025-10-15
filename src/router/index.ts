@@ -26,12 +26,16 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: () => import('../views/ProfileView.vue')
-  }
-  ,
+  },
   {
     path: '/virtualList',
     name: 'virtualListView',
     component: () => import('../views/VirtualListView.vue')
+  },
+  {
+    path: '/tableListView',
+    name: 'tableListView',
+    component: () => import('../views/TableListView.vue')
   }
 ]
 
