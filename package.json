@@ -19,7 +19,8 @@
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3",
-    "vue-virtual-scroller": "^2.0.0-beta.8"
+    "vue-virtual-scroller": "^2.0.0-beta.8",
+    "web-storage-cache": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "^24.7.2",
