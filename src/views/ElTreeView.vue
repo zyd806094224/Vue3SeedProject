@@ -55,8 +55,14 @@ const handleNodeClick = (data: Tree) => {
   console.log(data)
   content.value = data.label
   if (data.route) {
-    // 使用嵌套路由，跳转到指定的子路由
-    router.push({ name: data.route })
+    // 使用嵌套路由，跳转到指定的子路由并传递查询参数
+    router.push({
+      name: data.route,
+      query: {
+        id: data.id,
+        label: encodeURIComponent(data.label) // 编码特殊字符
+      }
+    })
   }
 }
 

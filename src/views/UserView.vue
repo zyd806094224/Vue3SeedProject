@@ -67,8 +67,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
 import { useUserStore } from '@/stores/useUserStore'
 import { useAppStore } from '@/stores/useAppStore'
@@ -80,10 +80,20 @@ interface LoginForm {
   password: string
 }
 
+// 定义路由参数类型
 // 使用路由和 stores
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const appStore = useAppStore()
+
+// 在组件挂载时打印路由参数
+onMounted(() => {
+  console.log('从ElTreeView接收到的参数:', {
+    id: route.query.id,
+    label: route.query.label ? decodeURIComponent(route.query.label as string) : undefined
+  })
+})
 
 // 响应式数据
 const loginForm = ref<LoginForm>({
