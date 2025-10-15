@@ -2,19 +2,14 @@
   <div class="virtual-list-container">
     <!-- Search bar -->
     <div class="search-container">
-      <input
-        v-model="searchQuery"
-        type="text"
-        placeholder="Search items..."
-        class="search-input"
-      />
+      <input v-model="searchQuery" type="text" placeholder="Search items..." class="search-input" />
     </div>
-    
+
     <!-- Stats -->
     <div class="stats">
       <p>Total items: {{ filteredItems.length }}</p>
     </div>
-    
+
     <!-- Virtual Scroller -->
     <RecycleScroller
       class="scroller"
@@ -24,7 +19,11 @@
       v-slot="{ item }"
     >
       <div class="item-container">
-        <div class="item-content" :class="{ 'selected': selectedId === item.id }" @click="selectItem(item.id)">
+        <div
+          class="item-content"
+          :class="{ selected: selectedId === item.id }"
+          @click="selectItem(item.id)"
+        >
           <div class="item-id">#{{ item.id }}</div>
           <div class="item-name">{{ item.name }}</div>
           <div class="item-description">{{ item.description }}</div>
@@ -67,9 +66,10 @@ const generateSampleData = (): Item[] => {
 // Filter items based on search query
 const filteredItems = computed(() => {
   if (!searchQuery.value) return items.value
-  return items.value.filter(item => 
-    item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+  return items.value.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 })
 
@@ -131,7 +131,9 @@ onMounted(() => {
   border-radius: 4px;
   background: white;
   cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
 }
 
 .item-content:hover {
