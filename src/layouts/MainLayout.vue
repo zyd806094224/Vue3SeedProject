@@ -15,6 +15,7 @@
             <RouterLink to="/profile" class="nav-link">个人资料</RouterLink>
             <RouterLink to="/virtualList" class="nav-link">列表</RouterLink>
             <RouterLink to="/tableListView" class="nav-link">表格</RouterLink>
+            <RouterLink to="/elTreeView" class="nav-link">ElTree</RouterLink>
           </nav>
           <!-- 用户操作区域 -->
           <div class="user-actions">

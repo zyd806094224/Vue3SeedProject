@@ -36,6 +36,11 @@ const routes = [
     path: '/tableListView',
     name: 'tableListView',
     component: () => import('../views/TableListView.vue')
+  },
+  {
+    path: '/elTreeView',
+    name: 'elTreeView',
+    component: () => import('../views/ElTreeView.vue')
   }
 ]
 
