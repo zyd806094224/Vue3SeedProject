@@ -27,7 +27,8 @@
               {{ isDarkTheme ? '🌞' : '🌙' }}
             </button>
             <button v-if="isLoggedIn" @click="handleLogout" class="logout-btn">登出</button>
-            <RouterLink v-else to="/user" class="login-link"> 登录 </RouterLink>
+            <RouterLink v-else to="/user" class="login-link"> 登录</RouterLink>
+            <button @click="handleFileUpload" class="file-upload-btn">文件上传</button>
           </div>
         </div>
       </div>
@@ -64,6 +65,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/useAppStore'
 import { useUserStore } from '@/stores/useUserStore'
+import { fileApi } from '@/api'
 
 // 使用 stores
 const appStore = useAppStore()
@@ -86,6 +88,43 @@ const handleLogout = () => {
   userStore.logout()
   router.push('/user')
   appStore.showNotification('已成功登出', 'success')
+}
+
+/**
+ * 文件上传处理函数
+ */
+const handleFileUpload = () => {
+  // 创建文件输入元素
+  const fileInput = document.createElement('input')
+  fileInput.type = 'file'
+  fileInput.accept = '*' // 接受所有文件类型
+  fileInput.multiple = false // 单文件上传
+
+  fileInput.onchange = async (event: Event) => {
+    const target = event.target as HTMLInputElement
+    const file = target.files?.[0]
+
+    if (!file) {
+      appStore.showNotification('请选择要上传的文件', 'warning')
+      return
+    }
+
+    try {
+      // 使用封装好的文件上传API
+      const response = await fileApi.uploadFile(file)
+
+      // 上传成功
+      appStore.showNotification(`文件 "${file.name}" 上传成功`, 'success')
+      console.log('文件上传响应:', response)
+    } catch (error) {
+      // 上传失败
+      console.error('文件上传失败:', error)
+      appStore.showNotification('文件上传失败，请重试', 'error')
+    }
+  }
+
+  // 触发文件选择对话框
+  fileInput.click()
 }
 
 const hideNotification = () => {
@@ -165,6 +204,7 @@ document.documentElement.setAttribute('data-theme', appStore.theme)
   background-color: var(--hover-bg, #e9ecef);
 }
 
+.file-upload-btn,
 .logout-btn,
 .login-link {
   background-color: var(--primary-color, #007bff);

@@ -26,6 +26,12 @@ apiClient.interceptors.request.use(
     // 在发送请求之前做些什么
     console.log('发送请求:', config.method?.toUpperCase(), config.url)
 
+    // 动态处理Content-Type：如果是FormData，删除默认的Content-Type
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type']
+      // 让浏览器自动设置 multipart/form-data 和 boundary
+    }
+
     // 从用户 store 获取 token 并添加到请求头
     const userStore = useUserStore()
     if (userStore.token) {
