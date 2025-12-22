@@ -1,9 +1,16 @@
 <template>
   <!-- 根布局组件 -->
   <div id="app">
-    <MainLayout>
+    <!-- 移动端页面独立显示 -->
+    <template v-if="route.name === 'mobilePhone'">
       <RouterView />
-    </MainLayout>
+    </template>
+    <!-- 其他页面使用MainLayout -->
+    <template v-else>
+      <MainLayout>
+        <RouterView />
+      </MainLayout>
+    </template>
   </div>
 </template>
 
@@ -13,6 +20,9 @@
 import MainLayout from './layouts/MainLayout.vue'
 import { onMounted } from 'vue'
 import { useAppStore } from '@/stores'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 // 初始化主题
 onMounted(() => {

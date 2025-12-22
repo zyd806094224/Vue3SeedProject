@@ -16,6 +16,7 @@
             <RouterLink to="/virtualList" class="nav-link">列表</RouterLink>
             <RouterLink to="/tableListView" class="nav-link">表格</RouterLink>
             <RouterLink to="/elTreeView" class="nav-link">ElTree</RouterLink>
+            <RouterLink to="/mobilePhone" class="nav-link">移动端</RouterLink>
           </nav>
           <!-- 用户操作区域 -->
           <div class="user-actions">

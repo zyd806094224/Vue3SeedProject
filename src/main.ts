@@ -12,6 +12,10 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 // 导入中文语言包（可选，默认是英文）
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+// 导入 Vant 样式
+import 'vant/lib/index.css'
+
+import { List, Cell, Tabs, Tab } from 'vant'
 
 const app = createApp(App)
 
@@ -21,5 +25,9 @@ app.use(ElementPlus, {
 })
 app.use(createPinia())
 app.use(router)
+app.use(List)
+app.use(Cell)
+app.use(Tabs)
+app.use(Tab)
 
 app.mount('#app')

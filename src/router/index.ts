@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 // 定义路由类型
-export type RouteName = 'home' | 'about' | 'user' | 'profile' | 'virtualList'
+export type RouteName = 'home' | 'about' | 'user' | 'profile' | 'virtualList' | 'mobilePhone'
 
 // 定义路由配置
 const routes = [
@@ -41,6 +41,12 @@ const routes = [
     path: '/tableListView',
     name: 'tableListView',
     component: () => import('../views/TableListView.vue'),
+    props: true
+  },
+  {
+    path: '/mobilePhone',
+    name: 'mobilePhone',
+    component: () => import('../pages/MobilePhonePage.vue'),
     props: true
   },
   {
