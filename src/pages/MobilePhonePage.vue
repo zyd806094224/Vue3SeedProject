@@ -36,6 +36,7 @@
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import ContactList from '@/components/ContactList.vue'
+import { enableMobileAdaptation, disableMobileAdaptation } from '@/utils/rem'
 
 // 联系人数据类型
 interface ContactItem {
@@ -194,6 +195,9 @@ const handleScroll = () => {
 
 // 组件挂载时初始化
 onMounted(() => {
+  // 启用移动端rem适配
+  enableMobileAdaptation()
+
   initTabStates()
   // 加载第一个tab的数据
   loadTabData('recommend')
@@ -202,6 +206,9 @@ onMounted(() => {
 
 // 组件卸载时清理
 onUnmounted(() => {
+  // 禁用移动端rem适配，恢复原始状态
+  disableMobileAdaptation()
+
   window.removeEventListener('scroll', handleScroll)
 })
 </script>
@@ -210,29 +217,35 @@ onUnmounted(() => {
 .mobile-phone-page {
   min-height: 100vh;
   background-color: #f7f8fa;
+  font-size: 0.875rem; /* 14px */
 }
 
 .page-header {
   background-color: #fff;
-  padding: 16px;
+  padding: 1rem;
   border-bottom: 1px solid #ebedf0;
   position: sticky;
   top: 0;
   z-index: 1;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
+  height: 3rem; /* 48px */
 }
 
 .back-button {
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 1rem;
   color: #1989fa;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
   transition: background-color 0.2s;
+  height: 2rem; /* 32px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .back-button:hover {
@@ -245,7 +258,7 @@ onUnmounted(() => {
 
 .page-header h1 {
   margin: 0;
-  font-size: 18px;
+  font-size: 1.125rem; /* 18px */
   font-weight: 600;
   color: #323233;
   flex: 1;
@@ -257,10 +270,10 @@ onUnmounted(() => {
 
 .tab-content {
   background-color: #f7f8fa;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 6.25rem); /* 100px */
 }
 
-/* Vant Tab 自定义样式 */
+/* Vant Tab 自定义样式 - rem适配 */
 :deep(.van-tabs) {
   position: sticky;
   top: 0;
@@ -269,8 +282,9 @@ onUnmounted(() => {
 }
 
 :deep(.van-tabs__wrap) {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  height: 2.75rem; /* 44px */
 }
 
 :deep(.van-tabs__content) {
@@ -279,12 +293,19 @@ onUnmounted(() => {
 
 :deep(.van-tab) {
   font-weight: 500;
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px */
+  padding: 0 1rem;
+  line-height: 2.75rem; /* 44px */
 }
 
 :deep(.van-tab--active) {
   color: #1989fa;
   font-weight: 600;
+}
+
+:deep(.van-tabs__line) {
+  height: 0.125rem; /* 2px */
+  background-color: #1989fa;
 }
 
 /* 隐藏吸顶后可能产生的占位元素 */
@@ -294,5 +315,17 @@ onUnmounted(() => {
 
 :deep(.van-tabs__placeholder) {
   display: none !important;
+}
+
+/* 移动端优化 - 触摸区域 */
+:deep(.van-tab) {
+  min-width: 3rem; /* 48px 最小触摸区域 */
+}
+
+/* 小屏幕下的字体调整 */
+@media screen and (max-width: 375px) {
+  :deep(.van-tab) {
+    font-size: 0.8rem; /* 12.8px */
+  }
 }
 </style>
