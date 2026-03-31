@@ -13,7 +13,7 @@ export default defineConfig({
     }
   },
   server: {
-    host: '0.0.0.0',  //监听所有接口 不只监听localhost
+    host: '0.0.0.0', //监听所有接口 不只监听localhost
     port: 3000,
     open: false // 自动打开浏览器
   }
