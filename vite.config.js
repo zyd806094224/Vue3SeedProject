@@ -32,7 +32,7 @@ export default defineConfig(({ mode, command }) => {
       }
     },
     server: {
-      port: 80,
+      port: 3000,
       host: true,
       open: true,
       proxy: {
