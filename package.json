@@ -1,41 +1,59 @@
 {
-  "name": "vue3-seed-project",
-  "version": "0.0.1",
+  "name": "vue3-admin",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build:prod": "vite build",
+    "build:stage": "vite build --mode staging",
     "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix",
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@vueuse/core": "^10.11.0",
-    "axios": "^1.7.2",
-    "element-plus": "^2.11.4",
-    "pinia": "^2.1.7",
-    "vant": "^4.9.22",
-    "vue": "^3.4.29",
-    "vue-router": "^4.3.3",
-    "vue-virtual-scroller": "^2.0.0-beta.8",
-    "web-storage-cache": "^1.1.1"
+    "@element-plus/icons-vue": "2.3.2",
+    "@vueup/vue-quill": "1.2.0",
+    "@vueuse/core": "14.1.0",
+    "axios": "1.13.2",
+    "clipboard": "2.0.11",
+    "echarts": "5.6.0",
+    "element-plus": "2.13.1",
+    "file-saver": "2.0.5",
+    "fuse.js": "7.1.0",
+    "js-beautify": "1.15.4",
+    "js-cookie": "3.0.5",
+    "jsencrypt": "3.3.2",
+    "nprogress": "0.2.0",
+    "pinia": "3.0.4",
+    "splitpanes": "4.0.4",
+    "vue": "3.5.26",
+    "vue-cropper": "1.1.1",
+    "vue-router": "4.6.4",
+    "vuedraggable": "4.1.0"
   },
   "devDependencies": {
     "@types/node": "^24.7.2",
-    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitejs/plugin-vue": "5.2.4",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
-    "npm-run-all2": "^6.2.0",
     "prettier": "^3.2.5",
+    "sass-embedded": "1.97.2",
     "typescript": "~5.4.0",
-    "vite": "^5.3.1",
-    "vite-plugin-vue-devtools": "^7.3.1",
+    "unplugin-auto-import": "0.18.6",
+    "unplugin-vue-setup-extend-plus": "1.0.1",
+    "vite": "6.4.1",
+    "vite-plugin-compression": "0.5.1",
+    "vite-plugin-svg-icons": "2.0.1",
     "vue-tsc": "^2.0.21"
+  },
+  "overrides": {
+    "quill": "2.0.2"
+  },
+  "resolutions": {
+    "quill": "2.0.2"
   }
 }
