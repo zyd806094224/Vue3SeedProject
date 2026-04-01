@@ -59,4 +59,3 @@ export default {
    */
   footerContent: 'Copyright © 2024-2026 All Rights Reserved.'
 }
-

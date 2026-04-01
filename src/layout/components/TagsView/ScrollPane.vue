@@ -39,12 +39,12 @@ function smoothScrollTo(target) {
   const duration = 300
   let startTime = null
 
-  // easeInOutQuad »º¶¯º¯Êý
+  // easeInOutQuad ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   function ease(t, b, c, d) {
     t /= d / 2
-    if (t < 1) return c / 2 * t * t + b
+    if (t < 1) return (c / 2) * t * t + b
     t--
-    return -c / 2 * (t * (t - 2) - 1) + b
+    return (-c / 2) * (t * (t - 2) - 1) + b
   }
 
   function step(timestamp) {
@@ -91,7 +91,7 @@ function moveToTarget(currentTag) {
     smoothScrollTo($scrollWrapper.scrollWidth - $containerWidth)
   } else {
     const tagListDom = document.getElementsByClassName('tags-view-item')
-    const currentIndex = visitedViews.value.findIndex(item => item === currentTag)
+    const currentIndex = visitedViews.value.findIndex((item) => item === currentTag)
     let prevTag = null
     let nextTag = null
     for (const k in tagListDom) {
@@ -127,7 +127,8 @@ function getScrollState() {
   const $scrollWrapper = scrollWrapper.value
   return {
     canLeft: $scrollWrapper.scrollLeft > 0,
-    canRight: $scrollWrapper.scrollLeft < $scrollWrapper.scrollWidth - $scrollWrapper.clientWidth - 1
+    canRight:
+      $scrollWrapper.scrollLeft < $scrollWrapper.scrollWidth - $scrollWrapper.clientWidth - 1
   }
 }
 
@@ -139,7 +140,7 @@ defineExpose({
 })
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .scroll-container {
   white-space: nowrap;
   position: relative;
