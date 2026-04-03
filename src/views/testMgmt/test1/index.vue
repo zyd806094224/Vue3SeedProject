@@ -288,7 +288,8 @@ async function handleStart() {
       bizItemId: 1,
       formSchema: JSON.stringify({ title: '测试申请', amount: 5000 }),
       variables: {
-        wfApprovers: [1]  // admin用户ID
+        firstApprovers: [1],   // 一级审批人（admin）
+        secondApprovers: [1]   // 二级审批人（admin）
       }
     })
     if (res.code === 200) {
