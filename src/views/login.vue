@@ -74,6 +74,7 @@
 
 <script setup>
 import { getCodeImg } from '@/api/login'
+import { getConfigKey } from '@/api/system/config'
 import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 import useUserStore from '@/store/modules/user'
@@ -180,7 +181,7 @@ function getCookie() {
 getCode()
 getCookie()
 // 获取注册开关
-proxy.getConfigKey('sys.account.registerUser').then((res) => {
+getConfigKey('sys.account.registerUser').then((res) => {
   register.value = res.msg === 'true'
 })
 </script>
