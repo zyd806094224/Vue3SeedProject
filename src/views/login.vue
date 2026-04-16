@@ -78,6 +78,7 @@ import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 import useUserStore from '@/store/modules/user'
 import defaultSettings from '@/settings'
+import { useRoute, useRouter } from 'vue-router'
 
 const title = import.meta.env.VITE_APP_TITLE
 const footerContent = defaultSettings.footerContent
@@ -178,6 +179,10 @@ function getCookie() {
 
 getCode()
 getCookie()
+// 获取注册开关
+proxy.getConfigKey('sys.account.registerUser').then((res) => {
+  register.value = res.msg === 'true'
+})
 </script>
 
 <style lang="scss" scoped>
