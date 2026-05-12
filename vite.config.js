@@ -2,7 +2,8 @@ import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
 import createVitePlugins from './vite/plugins'
 
-const baseUrl = 'http://localhost:8061' // 后端接口
+// const baseUrl = 'http://localhost:8061' // 后端接口
+const baseUrl = 'https://106.15.7.132:8443' // 后端接口
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
@@ -39,6 +40,7 @@ export default defineConfig(({ mode, command }) => {
         '/dev-api': {
           target: baseUrl,
           changeOrigin: true,
+          secure: false,
           rewrite: (p) => p.replace(/^\/dev-api/, '')
         }
       }
