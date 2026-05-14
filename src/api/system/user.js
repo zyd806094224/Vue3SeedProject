@@ -1,3 +1,13 @@
+/*
+ * @Author: zhaoyudong
+ * @Date: 2026-05-13 20:11:29
+ * @LastEditors: zhaoyudong
+ * @LastEditTime: 2026-05-13 20:11:29
+ * @Description: ----
+ *
+ * 页面功能：
+ *   ----
+ */
 import request from '@/utils/request'
 import { parseStrEmpty } from '@/utils/helpers'
 
@@ -105,7 +115,7 @@ export function uploadAvatar(data) {
   return request({
     url: '/system/user/profile/avatar',
     method: 'post',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: { 'Content-Type': 'multipart/form-data' },
     data: data
   })
 }
