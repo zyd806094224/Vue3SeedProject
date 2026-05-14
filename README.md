@@ -1,6 +1,10 @@
-# Vue3 Admin 管理系统
+# Personal Manager - 前端
 
-基于 Vue 3 + TypeScript + Vite 构建的企业级后台管理系统前端工程，脱胎于若依（RuoYi）Vue3 版本并进行了改造优化。
+个人管理系统的 Web 前端工程，基于 Vue 3 + Vite 构建，脱胎于若依（RuoYi）Vue3 版本并进行了改造优化。当前主要用于账号密码管理，后续将持续扩展其他个人管理功能。
+
+**相关工程：**
+- 后端服务：[SpringBootServiceSeedProject](https://github.com/zyd806094224/SpringBootServiceSeedProject)
+- 移动端：[RNHybrid](https://github.com/zyd806094224/RNHybrid)
 
 ## 技术栈
 
@@ -20,10 +24,11 @@
 
 ## 功能特性
 
+- **账号密码管理**：账号分类管理（社交、工作、金融、其他），支持增删改查
+- **个人中心**：个人信息维护、头像上传、密码修改
 - **权限管理**：基于角色的动态路由与按钮级权限控制
-- **用户管理**：用户、角色、菜单、部门、岗位的 CRUD 管理
+- **系统管理**：用户、角色、菜单、部门、岗位、字典、配置管理
 - **系统监控**：在线用户、操作日志、登录日志、服务监控、缓存监控
-- **系统工具**：代码生成、表单构建、系统接口文档（Swagger）
 - **主题定制**：明暗主题切换、侧边栏风格配置
 - **标签导航**：多标签页视图，支持标签缓存与关闭
 - **全局组件**：SVG 图标、面包屑、分页、文件上传、富文本编辑器等
@@ -125,18 +130,31 @@ npm run format
 
 ```nginx
 server {
-    listen 80;
+    listen 443 ssl http2;
     server_name your-domain.com;
     root /path/to/dist;
     index index.html;
 
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files $uri /index.html;
     }
 
-    # 后端 API 反向代理
-    location /prod-api/ {
-        proxy_pass http://localhost:8080/;
+    # 后端 API 反向代理（注意使用 ^~ 避免被静态文件规则截获）
+    location ^~ /prod-api/ {
+        proxy_pass http://127.0.0.1:8066/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # 静态资源缓存
+    location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$ {
+        expires 30d;
+    }
+
+    location ~ .*\.(js|css)?$ {
+        expires 12h;
     }
 }
 ```
