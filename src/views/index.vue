@@ -82,6 +82,7 @@
 <script setup name="Index">
 import * as echarts from 'echarts'
 import useUserStore from '@/store/modules/user'
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
 const router = useRouter()
