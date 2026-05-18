@@ -88,8 +88,11 @@
           :show-overflow-tooltip="true"
         />
         <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
-        <el-table-column label="操作" align="center" width="150">
+        <el-table-column label="操作" align="center" width="200">
           <template #default="scope">
+            <el-button link type="primary" icon="View" @click="handlePreview(scope.row)"
+              >查看</el-button
+            >
             <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
               >编辑</el-button
             >
@@ -230,6 +233,39 @@
           <el-button @click="dialogOpen = false">取 消</el-button>
         </div>
       </template>
+    </el-dialog>
+
+    <!-- 预览弹窗 -->
+    <el-dialog
+      title="查看备忘录"
+      v-model="previewOpen"
+      width="700px"
+      append-to-body
+      destroy-on-close
+    >
+      <el-descriptions :column="2" border>
+        <el-descriptions-item label="所属分类">{{ previewData.categoryName }}</el-descriptions-item>
+        <el-descriptions-item label="名称">{{ previewData.memoName }}</el-descriptions-item>
+        <el-descriptions-item label="简要描述" :span="2">{{
+          previewData.memoDesc || '-'
+        }}</el-descriptions-item>
+      </el-descriptions>
+
+      <el-divider v-if="previewFields.length > 0">详细信息</el-divider>
+      <el-descriptions v-if="previewFields.length > 0" :column="2" border>
+        <el-descriptions-item
+          v-for="field in previewFields"
+          :key="field.fieldId"
+          :label="field.fieldName"
+        >
+          <template v-if="field.fieldType === 'textarea'">
+            <div style="white-space: pre-wrap">{{ field.value || '-' }}</div>
+          </template>
+          <template v-else>
+            {{ field.value || '-' }}
+          </template>
+        </el-descriptions-item>
+      </el-descriptions>
     </el-dialog>
 
     <!-- 侧边栏快捷新增分类弹窗 -->
@@ -425,6 +461,37 @@ const memoForm = ref({})
 const memoRules = {
   categoryId: [{ required: true, message: '请选择分类', trigger: 'change' }],
   memoName: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+}
+
+// =========== 预览 ===========
+const previewOpen = ref(false)
+const previewData = ref({})
+const previewFields = ref([])
+
+function handlePreview(row) {
+  getMemoInfo(row.memoId).then((response) => {
+    const data = response.data
+    previewData.value = {
+      categoryName: data.memoInfo.categoryName,
+      memoName: data.memoInfo.memoName,
+      memoDesc: data.memoInfo.memoDesc
+    }
+
+    // 合并字段定义和字段值
+    const defs = response.fieldDefs || []
+    const vals = {}
+    if (data.fieldValues) {
+      data.fieldValues.forEach((fv) => {
+        vals[fv.fieldId] = fv.fieldValue
+      })
+    }
+    previewFields.value = defs.map((f) => ({
+      ...f,
+      value: vals[f.fieldId] || ''
+    }))
+
+    previewOpen.value = true
+  })
 }
 
 // 解析字段选项
