@@ -43,51 +43,86 @@
         <!-- 一级审批 -->
         <div v-if="currentProcess && currentStep === 'first'" class="step-section">
           <el-descriptions :column="2" border size="small">
-            <el-descriptions-item label="流程实例ID">{{ currentProcess.processInstanceId }}</el-descriptions-item>
-            <el-descriptions-item label="实例组ID">{{ currentProcess.instanceGroupId }}</el-descriptions-item>
+            <el-descriptions-item label="流程实例ID">{{
+              currentProcess.processInstanceId
+            }}</el-descriptions-item>
+            <el-descriptions-item label="实例组ID">{{
+              currentProcess.instanceGroupId
+            }}</el-descriptions-item>
             <el-descriptions-item label="当前节点">一级审批</el-descriptions-item>
-            <el-descriptions-item label="任务ID">{{ currentTaskId || '获取中...' }}</el-descriptions-item>
+            <el-descriptions-item label="任务ID">{{
+              currentTaskId || '获取中...'
+            }}</el-descriptions-item>
           </el-descriptions>
           <div class="btn-row">
-            <el-input v-model="comment" placeholder="审批意见" style="width: 300px; margin-right: 12px" />
+            <el-input
+              v-model="comment"
+              placeholder="审批意见"
+              style="width: 300px; margin-right: 12px"
+            />
             <el-button
               v-if="scenario === 'approve' || scenario === 'reject_second'"
-              type="success" :loading="loading" :disabled="!currentTaskId"
+              type="success"
+              :loading="loading"
+              :disabled="!currentTaskId"
               @click="handleApprove(currentTaskId)"
-            >通过</el-button>
+              >通过</el-button
+            >
             <el-button
               v-if="scenario === 'reject'"
-              type="danger" :loading="loading" :disabled="!currentTaskId"
+              type="danger"
+              :loading="loading"
+              :disabled="!currentTaskId"
               @click="handleReject(currentTaskId)"
-            >驳回</el-button>
+              >驳回</el-button
+            >
             <el-button
               v-if="scenario === 'withdraw'"
-              type="warning" :loading="loading" :disabled="!currentTaskId"
+              type="warning"
+              :loading="loading"
+              :disabled="!currentTaskId"
               @click="handleWithdraw(currentTaskId)"
-            >撤回</el-button>
+              >撤回</el-button
+            >
           </div>
         </div>
 
         <!-- 二级审批 -->
         <div v-if="currentProcess && currentStep === 'second'" class="step-section">
           <el-descriptions :column="2" border size="small">
-            <el-descriptions-item label="流程实例ID">{{ currentProcess.processInstanceId }}</el-descriptions-item>
+            <el-descriptions-item label="流程实例ID">{{
+              currentProcess.processInstanceId
+            }}</el-descriptions-item>
             <el-descriptions-item label="当前节点">二级审批（会签）</el-descriptions-item>
-            <el-descriptions-item label="任务ID">{{ currentTaskId || '获取中...' }}</el-descriptions-item>
-            <el-descriptions-item label="操作">{{ scenario === 'reject_second' ? '将驳回' : '将通过' }}</el-descriptions-item>
+            <el-descriptions-item label="任务ID">{{
+              currentTaskId || '获取中...'
+            }}</el-descriptions-item>
+            <el-descriptions-item label="操作">{{
+              scenario === 'reject_second' ? '将驳回' : '将通过'
+            }}</el-descriptions-item>
           </el-descriptions>
           <div class="btn-row">
-            <el-input v-model="comment" placeholder="审批意见" style="width: 300px; margin-right: 12px" />
+            <el-input
+              v-model="comment"
+              placeholder="审批意见"
+              style="width: 300px; margin-right: 12px"
+            />
             <el-button
               v-if="scenario === 'approve'"
-              type="success" :loading="loading" :disabled="!currentTaskId"
+              type="success"
+              :loading="loading"
+              :disabled="!currentTaskId"
               @click="handleApprove(currentTaskId)"
-            >通过</el-button>
+              >通过</el-button
+            >
             <el-button
               v-if="scenario === 'reject_second'"
-              type="danger" :loading="loading" :disabled="!currentTaskId"
+              type="danger"
+              :loading="loading"
+              :disabled="!currentTaskId"
               @click="handleReject(currentTaskId)"
-            >驳回</el-button>
+              >驳回</el-button
+            >
           </div>
         </div>
 
@@ -113,8 +148,12 @@
               placement="top"
             >
               <el-card shadow="never" class="timeline-card">
-                <p><strong>{{ item.nodeName }}</strong> - {{ item.optTypeDesc }}</p>
-                <p>操作人: {{ item.userName || ('userId:' + item.userId) }} | {{ item.statusDesc }}</p>
+                <p>
+                  <strong>{{ item.nodeName }}</strong> - {{ item.optTypeDesc }}
+                </p>
+                <p>
+                  操作人: {{ item.userName || 'userId:' + item.userId }} | {{ item.statusDesc }}
+                </p>
                 <p v-if="item.comment">意见: {{ item.comment }}</p>
               </el-card>
             </el-timeline-item>
@@ -261,7 +300,7 @@ async function refreshProgress() {
 // 轮询获取待办任务ID
 async function fetchPendingTaskId(processInstanceId: string, retries = 10): Promise<string> {
   for (let i = 0; i < retries; i++) {
-    await new Promise(r => setTimeout(r, 800))
+    await new Promise((r) => setTimeout(r, 800))
     try {
       const res: any = await getPendingTasks(processInstanceId)
       if (res.code === 200 && res.data && res.data.length > 0) {
@@ -288,14 +327,17 @@ async function handleStart() {
       bizItemId: 1,
       formSchema: JSON.stringify({ title: '测试申请', amount: 5000 }),
       variables: {
-        firstApprovers: [1],   // 一级审批人（admin）
-        secondApprovers: [1]   // 二级审批人（admin）
+        firstApprovers: [1], // 一级审批人（admin）
+        secondApprovers: [1] // 二级审批人（admin）
       }
     })
     if (res.code === 200) {
       currentProcess.value = res.data
       currentStep.value = 'first'
-      addLog(`流程启动成功！processInstanceId=${res.data.processInstanceId}, groupId=${res.data.instanceGroupId}`, 'success')
+      addLog(
+        `流程启动成功！processInstanceId=${res.data.processInstanceId}, groupId=${res.data.instanceGroupId}`,
+        'success'
+      )
 
       // 获取一级审批任务
       addLog('等待任务创建，获取任务ID...')
@@ -326,7 +368,7 @@ async function handleApprove(taskId: string) {
     if (res.code === 200) {
       addLog(`${stepLabel}通过成功！`, 'success')
       comment.value = ''
-      await new Promise(r => setTimeout(r, 1500))
+      await new Promise((r) => setTimeout(r, 1500))
       await refreshProgress()
 
       if (currentStep.value === 'first') {
@@ -374,7 +416,7 @@ async function handleReject(taskId: string) {
       comment.value = ''
       currentStep.value = 'done'
       finalResult.value = 'rejected'
-      await new Promise(r => setTimeout(r, 1500))
+      await new Promise((r) => setTimeout(r, 1500))
       await refreshProgress()
       addLog('流程结束，已驳回', 'warning')
     } else {
@@ -397,7 +439,7 @@ async function handleWithdraw(taskId: string) {
       comment.value = ''
       currentStep.value = 'done'
       finalResult.value = 'withdrawn'
-      await new Promise(r => setTimeout(r, 1500))
+      await new Promise((r) => setTimeout(r, 1500))
       await refreshProgress()
       addLog('流程结束，已撤回', 'warning')
     } else {
@@ -496,9 +538,17 @@ function handleReset() {
 }
 
 .log-item {
-  &.info { color: #606266; }
-  &.success { color: #67c23a; }
-  &.error { color: #f56c6c; }
-  &.warning { color: #e6a23c; }
+  &.info {
+    color: #606266;
+  }
+  &.success {
+    color: #67c23a;
+  }
+  &.error {
+    color: #f56c6c;
+  }
+  &.warning {
+    color: #e6a23c;
+  }
 }
 </style>

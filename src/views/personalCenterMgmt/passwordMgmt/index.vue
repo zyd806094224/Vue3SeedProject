@@ -22,7 +22,12 @@
         />
       </el-form-item>
       <el-form-item label="分类" prop="category">
-        <el-select v-model="queryParams.category" placeholder="请选择分类" clearable style="width: 200px">
+        <el-select
+          v-model="queryParams.category"
+          placeholder="请选择分类"
+          clearable
+          style="width: 200px"
+        >
           <el-option
             v-for="item in categoryOptions"
             :key="item.value"
@@ -61,7 +66,12 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="用户名" align="center" prop="username" :show-overflow-tooltip="true" />
+      <el-table-column
+        label="用户名"
+        align="center"
+        prop="username"
+        :show-overflow-tooltip="true"
+      />
       <el-table-column label="密码" align="center" width="150">
         <template #default="scope">
           <div class="password-cell">
@@ -73,7 +83,13 @@
               :icon="scope.row._showPassword ? 'Hide' : 'View'"
               @click="togglePassword(scope.row)"
             />
-            <el-button v-if="scope.row._showPassword" link type="primary" icon="CopyDocument" @click="copyPassword(scope.row)" />
+            <el-button
+              v-if="scope.row._showPassword"
+              link
+              type="primary"
+              icon="CopyDocument"
+              @click="copyPassword(scope.row)"
+            />
           </div>
         </template>
       </el-table-column>
@@ -89,8 +105,12 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
       <el-table-column label="操作" align="center" width="150">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
+            >修改</el-button
+          >
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -121,7 +141,11 @@
           </el-select>
         </el-form-item>
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" placeholder="请输入用户名/邮箱/手机号" maxlength="200" />
+          <el-input
+            v-model="form.username"
+            placeholder="请输入用户名/邮箱/手机号"
+            maxlength="200"
+          />
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input
@@ -136,7 +160,12 @@
           <el-input v-model="form.url" placeholder="请输入网站URL" maxlength="500" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" maxlength="500" />
+          <el-input
+            v-model="form.remark"
+            type="textarea"
+            placeholder="请输入备注"
+            maxlength="500"
+          />
         </el-form-item>
       </el-form>
       <template #footer>

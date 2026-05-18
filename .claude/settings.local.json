@@ -1,4 +1,12 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(ls -la SpringBoot*)",
+      "Bash(pushd /Users/zhaoyudong/IdeaProjects/SpringBootServiceSeedProject)",
+      "Bash(find /Users/zhaoyudong/IdeaProjects/SpringBootServiceSeedProject -name \"*.java\" -exec grep -l \"tree\" {})",
+      "Bash(find . -name *.java)"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {
