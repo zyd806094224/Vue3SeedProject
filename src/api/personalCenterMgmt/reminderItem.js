@@ -67,3 +67,12 @@ export function closeReminder(reminderId) {
     method: 'put'
   })
 }
+
+// 手动发送提醒邮件
+export function sendReminder(reminderId, customContent) {
+  return request({
+    url: '/api/reminder/' + reminderId + '/send',
+    method: 'post',
+    data: { customContent }
+  })
+}

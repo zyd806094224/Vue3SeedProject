@@ -56,11 +56,12 @@
         </template>
       </el-table-column>
       <el-table-column label="续期次数" prop="renewalCount" width="85" align="center" />
-      <el-table-column label="操作" width="260" fixed="right" align="center">
+      <el-table-column label="操作" width="320" fixed="right" align="center">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button link type="success" icon="RefreshRight" @click="handleRenew(scope.row)"
             v-if="scope.row.status !== '3' && scope.row.status !== '4'">续期</el-button>
+          <el-button link icon="Message" @click="handleSend(scope.row)">提醒</el-button>
           <el-button link type="warning" icon="Check" @click="handleComplete(scope.row)"
             v-if="scope.row.status !== '3'">完成</el-button>
           <el-button link type="danger" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
@@ -147,6 +148,26 @@
         <el-button type="primary" @click="submitRenew">确认续期</el-button>
       </template>
     </el-dialog>
+
+    <!-- 手动提醒弹窗 -->
+    <el-dialog title="发送提醒" v-model="sendDialogVisible" width="500px" destroy-on-close>
+      <el-form label-width="100px">
+        <el-form-item label="事项标题">
+          <span>{{ sendItem?.title }}</span>
+        </el-form-item>
+        <el-form-item label="到期日期">
+          <span>{{ sendItem?.dueDate }}</span>
+        </el-form-item>
+        <el-form-item label="自定义内容">
+          <el-input v-model="sendContent" type="textarea" :rows="4" placeholder="可输入额外的提醒内容（可选）" maxlength="500"
+            show-word-limit />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="sendDialogVisible = false">取 消</el-button>
+        <el-button type="primary" :loading="sendLoading" @click="submitSend">发送提醒</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -155,7 +176,7 @@ import { ref, reactive, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   listReminder, getReminder, addReminder, updateReminder,
-  delReminder, renewReminder, completeReminder, closeReminder
+  delReminder, renewReminder, completeReminder, closeReminder, sendReminder
 } from '@/api/personalCenterMgmt/reminderItem'
 
 // 分类选项
@@ -355,6 +376,33 @@ function handleComplete(row) {
       }
     })
   }).catch(() => {})
+}
+
+// 手动提醒相关
+const sendDialogVisible = ref(false)
+const sendItem = ref(null)
+const sendContent = ref('')
+const sendLoading = ref(false)
+
+function handleSend(row) {
+  sendItem.value = row
+  sendContent.value = ''
+  sendDialogVisible.value = true
+}
+
+function submitSend() {
+  sendLoading.value = true
+  sendReminder(sendItem.value.reminderId, sendContent.value).then(res => {
+    sendLoading.value = false
+    if (res.code === 200) {
+      ElMessage.success(res.msg || '提醒邮件已发送')
+      sendDialogVisible.value = false
+    } else {
+      ElMessage.error(res.msg || '发送失败')
+    }
+  }).catch(() => {
+    sendLoading.value = false
+  })
 }
 
 // 辅助函数
