@@ -41,7 +41,7 @@
         </template>
       </el-table-column>
       <el-table-column label="到期日期" prop="dueDate" width="110" align="center" />
-      <el-table-column label="剩余天数" width="100" align="center">
+      <el-table-column label="剩余/过期" width="100" align="center">
         <template #default="scope">
           <span :style="{ color: daysColor(scope.row) }">{{ daysText(scope.row) }}</span>
         </template>
@@ -418,8 +418,8 @@ function calculateDays(row) {
 function daysText(row) {
   const days = calculateDays(row)
   if (days > 0) return days + '天'
-  if (days === 0) return '今天'
-  return Math.abs(days) + '天'
+  if (days === 0) return '今天到期'
+  return '过期' + Math.abs(days) + '天'
 }
 
 function daysColor(row) {
