@@ -11,31 +11,37 @@
         <span class="sidebar-title">分类</span>
         <el-button link type="primary" icon="Plus" @click="handleAddCategory" />
       </div>
-      <div
-        class="category-item"
-        :class="{ active: !queryParams.categoryId }"
-        @click="selectCategory(null)"
-      >
-        <span>全部分类</span>
-      </div>
-      <div
-        v-for="cat in categoryList"
-        :key="cat.categoryId"
-        class="category-item"
-        :class="{ active: queryParams.categoryId === cat.categoryId }"
-        @click="selectCategory(cat.categoryId)"
-      >
-        <span class="category-name">{{ cat.categoryName }}</span>
-        <span class="category-actions">
-          <el-button link icon="Edit" size="small" @click.stop="handleEditCategory(cat)" />
-          <el-button
-            link
-            icon="Delete"
-            size="small"
-            type="danger"
-            @click.stop="handleDeleteCategory(cat)"
-          />
-        </span>
+      <div class="category-list">
+        <div
+          class="category-item"
+          :class="{ active: !queryParams.categoryId }"
+          @click="selectCategory(null)"
+        >
+          <svg-icon class="category-icon" icon-class="list" />
+          <span class="category-name">全部分类</span>
+          <span class="category-count">{{ totalMemoCount }}</span>
+        </div>
+        <div
+          v-for="cat in categoryList"
+          :key="cat.categoryId"
+          class="category-item"
+          :class="{ active: queryParams.categoryId === cat.categoryId }"
+          @click="selectCategory(cat.categoryId)"
+        >
+          <svg-icon class="category-icon" :icon-class="cat.categoryIcon || 'documentation'" />
+          <span class="category-name">{{ cat.categoryName }}</span>
+          <span class="category-count">{{ cat.memoCount ?? 0 }}</span>
+          <span class="category-actions">
+            <el-button link icon="Edit" size="small" @click.stop="handleEditCategory(cat)" />
+            <el-button
+              link
+              icon="Delete"
+              size="small"
+              type="danger"
+              @click.stop="handleDeleteCategory(cat)"
+            />
+          </span>
+        </div>
       </div>
     </div>
 
@@ -74,19 +80,20 @@
       <!-- 数据表格 -->
       <el-table v-loading="loading" :data="memoList" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="50" align="center" />
-        <el-table-column
-          label="名称"
-          align="center"
-          prop="memoName"
-          :show-overflow-tooltip="true"
-        />
-        <el-table-column label="分类" align="center" prop="categoryName" width="120" />
-        <el-table-column
-          label="描述"
-          align="center"
-          prop="memoDesc"
-          :show-overflow-tooltip="true"
-        />
+        <el-table-column label="名称" align="left" prop="memoName" :show-overflow-tooltip="true" />
+        <el-table-column label="分类" align="center" prop="categoryName" width="120">
+          <template #default="scope">
+            <el-tag v-if="scope.row.categoryName" type="info" effect="light">{{
+              scope.row.categoryName
+            }}</el-tag>
+            <span v-else>-</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="描述" align="left" prop="memoDesc" :show-overflow-tooltip="true">
+          <template #default="scope">
+            {{ scope.row.memoDesc || '-' }}
+          </template>
+        </el-table-column>
         <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
         <el-table-column label="操作" align="center" width="200">
           <template #default="scope">
@@ -152,7 +159,7 @@
         <!-- 动态字段区域 -->
         <el-divider v-if="fieldDefs.length > 0">详细信息</el-divider>
         <el-row :gutter="20">
-          <el-col :span="12" v-for="field in fieldDefs" :key="field.fieldId">
+          <el-col :span="fieldColSpan" v-for="field in fieldDefs" :key="field.fieldId">
             <el-form-item
               :label="field.fieldName"
               :prop="'fieldValues.' + field.fieldId"
@@ -162,6 +169,7 @@
                   : []
               "
             >
+              <!-- 多行文本占整行，其余按 fieldColSpan -->
               <!-- 单行文本 -->
               <el-input
                 v-if="field.fieldType === 'text'"
@@ -243,29 +251,37 @@
       append-to-body
       destroy-on-close
     >
-      <el-descriptions :column="2" border>
-        <el-descriptions-item label="所属分类">{{ previewData.categoryName }}</el-descriptions-item>
-        <el-descriptions-item label="名称">{{ previewData.memoName }}</el-descriptions-item>
-        <el-descriptions-item label="简要描述" :span="2">{{
-          previewData.memoDesc || '-'
-        }}</el-descriptions-item>
-      </el-descriptions>
+      <div class="preview-section">
+        <div class="preview-section-title">基本信息</div>
+        <el-descriptions :column="2" border>
+          <el-descriptions-item label="所属分类">{{
+            previewData.categoryName || '-'
+          }}</el-descriptions-item>
+          <el-descriptions-item label="名称">{{ previewData.memoName }}</el-descriptions-item>
+          <el-descriptions-item label="简要描述" :span="2">{{
+            previewData.memoDesc || '-'
+          }}</el-descriptions-item>
+        </el-descriptions>
+      </div>
 
-      <el-divider v-if="previewFields.length > 0">详细信息</el-divider>
-      <el-descriptions v-if="previewFields.length > 0" :column="2" border>
-        <el-descriptions-item
-          v-for="field in previewFields"
-          :key="field.fieldId"
-          :label="field.fieldName"
-        >
-          <template v-if="field.fieldType === 'textarea'">
-            <div style="white-space: pre-wrap">{{ field.value || '-' }}</div>
-          </template>
-          <template v-else>
-            {{ field.value || '-' }}
-          </template>
-        </el-descriptions-item>
-      </el-descriptions>
+      <div class="preview-section" v-if="previewFields.length > 0">
+        <div class="preview-section-title">详细信息</div>
+        <el-descriptions :column="2" border>
+          <el-descriptions-item
+            v-for="field in previewFields"
+            :key="field.fieldId"
+            :label="field.fieldName"
+            :span="field.fieldType === 'textarea' ? 2 : 1"
+          >
+            <template v-if="field.fieldType === 'textarea'">
+              <div class="preview-textarea">{{ field.value || '-' }}</div>
+            </template>
+            <template v-else>
+              {{ field.value || '-' }}
+            </template>
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
     </el-dialog>
 
     <!-- 侧边栏快捷新增分类弹窗 -->
@@ -326,6 +342,11 @@ const quickCategoryForm = ref({})
 const quickCategoryRules = {
   categoryName: [{ required: true, message: '分类名称不能为空', trigger: 'blur' }]
 }
+
+// 全部分类的备忘录总数（各分类 memoCount 之和）
+const totalMemoCount = computed(() => {
+  return categoryList.value.reduce((sum, cat) => sum + (cat.memoCount || 0), 0)
+})
 
 function loadCategories() {
   listCategory().then((response) => {
@@ -456,6 +477,11 @@ const dialogTitle = ref('')
 const fieldDefs = ref([])
 const fieldValues = ref({})
 const fieldDefsLoading = ref(false)
+
+// 动态字段列宽：字段数 ≤ 2 时整行展示，避免右侧大片空白
+const fieldColSpan = computed(() => {
+  return fieldDefs.value.length > 2 ? 12 : 24
+})
 
 const memoForm = ref({})
 const memoRules = {
@@ -621,13 +647,17 @@ getList()
 .memo-container {
   display: flex;
   gap: 16px;
+  align-items: flex-start;
 }
 
+/* ============ 左侧分类侧边栏 ============ */
 .category-sidebar {
   width: 220px;
   flex-shrink: 0;
-  border-right: 1px solid #e4e7ed;
-  padding-right: 16px;
+  padding: 12px;
+  background-color: var(--el-bg-color-overlay);
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: 8px;
 }
 
 .sidebar-header {
@@ -635,52 +665,132 @@ getList()
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e4e7ed;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
 
   .sidebar-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
+    color: var(--el-text-color-primary);
   }
 }
 
-.category-item {
+.category-list {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.category-item {
+  position: relative;
+  display: flex;
   align-items: center;
+  gap: 8px;
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  color: var(--el-text-color-regular);
+  border-left: 3px solid transparent;
 
   &:hover {
-    background-color: #f5f7fa;
+    background-color: var(--el-fill-color-light);
 
     .category-actions {
       opacity: 1;
     }
+
+    .category-count {
+      opacity: 0;
+    }
   }
 
   &.active {
-    background-color: #ecf5ff;
-    color: #409eff;
+    background-color: var(--el-color-primary-light-9);
+    color: var(--el-color-primary);
+    border-left-color: var(--el-color-primary);
+    font-weight: 500;
+
+    .category-icon {
+      color: var(--el-color-primary);
+    }
+
+    .category-count {
+      background-color: var(--el-color-primary);
+      color: #fff;
+    }
+  }
+
+  .category-icon {
+    flex-shrink: 0;
+    font-size: 16px;
+    color: var(--el-text-color-secondary);
   }
 
   .category-name {
+    flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
+  .category-count {
+    flex-shrink: 0;
+    min-width: 20px;
+    height: 18px;
+    padding: 0 6px;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    color: var(--el-text-color-secondary);
+    background-color: var(--el-fill-color);
+    border-radius: 9px;
+    transition: opacity 0.2s;
+  }
+
   .category-actions {
+    position: absolute;
+    right: 8px;
     opacity: 0;
     transition: opacity 0.2s;
     white-space: nowrap;
+
+    :deep(.el-button) {
+      padding: 4px;
+    }
   }
 }
 
+/* ============ 右侧内容区 ============ */
 .memo-main {
   flex: 1;
   min-width: 0;
+  padding: 16px;
+  background-color: var(--el-bg-color-overlay);
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: 8px;
+}
+
+/* ============ 预览弹窗分组 ============ */
+.preview-section {
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .preview-section-title {
+    margin-bottom: 12px;
+    padding-left: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--el-text-color-primary);
+    border-left: 3px solid var(--el-color-primary);
+  }
+}
+
+.preview-textarea {
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 </style>

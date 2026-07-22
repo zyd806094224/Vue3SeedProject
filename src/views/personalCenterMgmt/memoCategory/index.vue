@@ -61,8 +61,12 @@
       />
       <el-table-column label="图标" align="center" prop="categoryIcon" width="80">
         <template #default="scope">
-          <svg-icon v-if="scope.row.categoryIcon" :icon-class="scope.row.categoryIcon" />
-          <span v-else>-</span>
+          <span v-if="scope.row.categoryIcon" class="icon-wrapper">
+            <svg-icon :icon-class="scope.row.categoryIcon" />
+          </span>
+          <span v-else class="icon-wrapper icon-placeholder">
+            <svg-icon icon-class="documentation" />
+          </span>
         </template>
       </el-table-column>
       <el-table-column label="排序" align="center" prop="orderNum" width="80" />
@@ -71,11 +75,26 @@
           <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="字段数" align="center" width="80">
+      <el-table-column label="字段数" align="center" width="90">
         <template #default="scope">
-          <el-button link type="primary" @click="handleFieldDefs(scope.row)">
-            {{ scope.row._fieldCount !== undefined ? scope.row._fieldCount : '-' }}
-          </el-button>
+          <el-tag
+            v-if="scope.row._fieldCount !== undefined"
+            type="info"
+            effect="light"
+            round
+            @click="handleFieldDefs(scope.row)"
+            style="cursor: pointer"
+          >
+            {{ scope.row._fieldCount }}
+          </el-tag>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="备忘录数" align="center" width="90">
+        <template #default="scope">
+          <el-tag type="primary" effect="light" round>
+            {{ scope.row.memoCount ?? 0 }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
@@ -139,13 +158,18 @@
       size="650px"
     >
       <div class="field-drawer-content">
+        <div class="field-drawer-tip">
+          为「{{
+            currentCategory.categoryName
+          }}」分类配置动态字段，新建备忘录时将按此字段模板填写。支持单行文本、多行文本、数字、日期、下拉选择、单选六种类型。
+        </div>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
             <el-button type="primary" plain icon="Plus" @click="handleAddField">添加字段</el-button>
           </el-col>
         </el-row>
 
-        <el-table :data="fieldDefs" border style="width: 100%">
+        <el-table v-if="fieldDefs.length > 0" :data="fieldDefs" border style="width: 100%">
           <el-table-column label="字段名称" prop="fieldName" min-width="120">
             <template #default="scope">
               <el-input
@@ -251,6 +275,8 @@
             </template>
           </el-table-column>
         </el-table>
+
+        <el-empty v-else description="暂无字段，点击上方「添加字段」按钮创建" :image-size="80" />
 
         <div class="drawer-footer">
           <el-button @click="fieldDrawerOpen = false">取 消</el-button>
@@ -543,11 +569,42 @@ getList()
 .field-drawer-content {
   padding: 0 20px 20px;
 }
+
+.field-drawer-tip {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--el-text-color-secondary);
+  background-color: var(--el-color-info-light-9);
+  border-left: 3px solid var(--el-color-info);
+  border-radius: 4px;
+}
+
 .drawer-footer {
   margin-top: 20px;
   text-align: right;
 }
+
 .text-gray {
-  color: #909399;
+  color: var(--el-text-color-secondary);
+}
+
+/* 图标列圆形容器 */
+.icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  color: var(--el-color-primary);
+  background-color: var(--el-color-primary-light-9);
+  border-radius: 50%;
+}
+
+.icon-placeholder {
+  color: var(--el-text-color-placeholder);
+  background-color: var(--el-fill-color-light);
 }
 </style>
