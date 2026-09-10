@@ -100,6 +100,13 @@
           <el-col :span="12">
             <el-form-item label="提前天数" prop="remindBeforeDays">
               <el-input-number v-model="form.remindBeforeDays" :min="0" :max="365" :controls-position="true" style="width: 100%" />
+              <div class="field-tip" :class="{ 'tip-warn': form.remindBeforeDays === 0 }">
+                {{
+                  form.remindBeforeDays === 0
+                    ? '填 0 表示到期当天才发送第一封提醒'
+                    : '到期前该天数起每天发送提醒，直至到期'
+                }}
+              </div>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -113,6 +120,13 @@
           <el-col :span="12">
             <el-form-item label="过期频率(天)" prop="overdueFrequency">
               <el-input-number v-model="form.overdueFrequency" :min="0" :max="365" :controls-position="true" style="width: 100%" />
+              <div class="field-tip" :class="{ 'tip-warn': form.overdueFrequency === 0 }">
+                {{
+                  form.overdueFrequency === 0
+                    ? '填 0 表示过期后不再发送邮件提醒'
+                    : '过期后每隔该天数重复发送邮件提醒'
+                }}
+              </div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -450,5 +464,17 @@ getList()
 <style scoped>
 .app-container {
   padding: 20px;
+}
+
+.field-tip {
+  width: 100%;
+  font-size: 12px;
+  color: #909399;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.tip-warn {
+  color: #e6a23c;
 }
 </style>
