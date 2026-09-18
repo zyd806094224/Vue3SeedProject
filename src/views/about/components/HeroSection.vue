@@ -16,7 +16,9 @@
       <p class="hero-intro">{{ profile.intro }}</p>
       <div class="hero-actions">
         <a href="#skills" class="hero-btn is-primary">查看技术栈</a>
-        <a :href="mailtoLink" class="hero-btn is-ghost">联系我</a>
+        <button class="hero-btn is-ghost" @click="copyEmail">
+          {{ copied ? '邮箱已复制 ✓' : '联系我' }}
+        </button>
       </div>
     </div>
     <a href="#skills" class="scroll-hint" aria-label="向下滚动">
@@ -35,7 +37,31 @@ const initial = computed(() => {
   return name.trim().charAt(0).toUpperCase() || 'Me'
 })
 
-const mailtoLink = computed(() => `mailto:${props.profile.contact?.email || ''}`)
+const copied = ref(false)
+let copiedTimer = null
+
+const copyEmail = async () => {
+  const email = props.profile.contact?.email || ''
+  if (!email) return
+  try {
+    await navigator.clipboard.writeText(email)
+  } catch (e) {
+    // 非安全上下文（如 http 环境）下 Clipboard API 不可用时降级
+    const input = document.createElement('textarea')
+    input.value = email
+    document.body.appendChild(input)
+    input.select()
+    document.execCommand('copy')
+    document.body.removeChild(input)
+  }
+  copied.value = true
+  clearTimeout(copiedTimer)
+  copiedTimer = setTimeout(() => {
+    copied.value = false
+  }, 2000)
+}
+
+onBeforeUnmount(() => clearTimeout(copiedTimer))
 </script>
 
 <style scoped lang="scss">
@@ -145,10 +171,13 @@ const mailtoLink = computed(() => `mailto:${props.profile.contact?.email || ''}`
 
 .hero-btn {
   padding: 11px 28px;
+  border: none;
   border-radius: 999px;
+  font-family: inherit;
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;

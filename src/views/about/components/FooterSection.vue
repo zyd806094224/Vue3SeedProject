@@ -2,12 +2,11 @@
   <footer class="about-footer">
     <div class="footer-inner">
       <p class="footer-links">
-        <a
-          v-if="profile.contact?.email"
-          :href="`mailto:${profile.contact.email}`"
-          class="footer-link"
-        >
+        <span v-if="profile.contact?.email" class="footer-link is-text">
           📮 {{ profile.contact.email }}
+        </span>
+        <a v-if="profile.contact?.phone" :href="`tel:${profile.contact.phone}`" class="footer-link">
+          📞 {{ profile.contact.phone }}
         </a>
         <a
           v-if="profile.contact?.github"

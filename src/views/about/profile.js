@@ -22,10 +22,11 @@ export const profile = {
     '享受从客户端到服务端的全链路交付。',
   // 所在地（TODO：按需替换或删除）
   location: '中国',
-  // 联系方式（TODO：替换为真实地址）
+  // 联系方式
   contact: {
-    email: 'example@example.com',
-    github: 'https://github.com/yourname'
+    email: '806094224@qq.com',
+    github: 'https://github.com/zyd806094224',
+    phone: '18611785026'
   },
 
   // 技术栈分组：primary 为 true 的分组会被高亮为"主力方向"
