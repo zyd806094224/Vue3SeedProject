@@ -48,6 +48,12 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/about',
+    component: () => import('@/views/about'),
+    hidden: true,
+    meta: { title: '个人介绍' }
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/error/404'),
     hidden: true
