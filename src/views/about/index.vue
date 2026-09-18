@@ -16,6 +16,7 @@
         <div class="nav-links">
           <a href="#hero" class="nav-link">首页</a>
           <a href="#skills" class="nav-link">技术栈</a>
+          <a href="#repos" class="nav-link">开源项目</a>
           <a href="#experience" class="nav-link">项目经历</a>
           <router-link to="/login" class="nav-login">前往登录</router-link>
         </div>
@@ -25,7 +26,8 @@
     <main>
       <HeroSection :profile="profile" />
       <SkillSection :skills="profile.skills" class="about-reveal section-band" />
-      <ExperienceSection :experiences="profile.experiences" class="about-reveal" />
+      <RepoSection :repos="profile.repos" :github="profile.contact.github" class="about-reveal" />
+      <ExperienceSection :experiences="profile.experiences" class="about-reveal section-band" />
     </main>
     <FooterSection :profile="profile" class="about-reveal" />
   </div>
@@ -35,6 +37,7 @@
 import { profile } from './profile'
 import HeroSection from './components/HeroSection.vue'
 import SkillSection from './components/SkillSection.vue'
+import RepoSection from './components/RepoSection.vue'
 import ExperienceSection from './components/ExperienceSection.vue'
 import FooterSection from './components/FooterSection.vue'
 

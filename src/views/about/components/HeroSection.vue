@@ -9,7 +9,8 @@
       <h1 class="hero-name">{{ profile.name }}</h1>
       <div class="hero-roles">
         <span class="role-chip is-primary">{{ profile.role }} · 主力</span>
-        <span class="role-chip">前端 Vue / React / RN</span>
+        <span class="role-chip">跨端 RN / Flutter / 鸿蒙</span>
+        <span class="role-chip">前端 Vue / React</span>
         <span class="role-chip">服务端 Spring Boot</span>
       </div>
       <p class="hero-slogan">{{ profile.slogan }}</p>

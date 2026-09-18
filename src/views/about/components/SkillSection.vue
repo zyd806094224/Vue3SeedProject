@@ -44,6 +44,21 @@
               <path d="M8 21h8M12 17v4" />
               <path d="m9 8-2.5 2.5L9 13M15 8l2.5 2.5L15 13" />
             </svg>
+            <!-- 多端拼图 -->
+            <svg
+              v-else-if="skill.key === 'hybrid'"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="3" width="7.5" height="7.5" rx="1.5" />
+              <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" />
+              <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" />
+              <path d="M17.25 13.5v7.5M13.5 17.25h7.5" />
+            </svg>
             <!-- 服务器机柜 -->
             <svg
               v-else
