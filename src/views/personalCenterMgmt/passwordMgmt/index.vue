@@ -103,8 +103,9 @@
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
-      <el-table-column label="操作" align="center" width="150">
+      <el-table-column label="操作" align="center" width="220">
         <template #default="scope">
+          <el-button link type="primary" icon="View" @click="handleView(scope.row)">查看</el-button>
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
             >修改</el-button
           >
@@ -123,6 +124,63 @@
       v-model:limit="queryParams.pageSize"
       @pagination="getList"
     />
+
+    <!-- 查看详情对话框 -->
+    <el-dialog
+      title="密码账号详情"
+      v-model="detailOpen"
+      width="650px"
+      append-to-body
+      destroy-on-close
+      @closed="detailData = {}"
+    >
+      <el-descriptions class="account-detail" :column="1" border>
+        <el-descriptions-item label="标题">{{ detailData.title || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="分类">
+          <el-tag v-if="detailData.category" :type="categoryTagType(detailData.category)">
+            {{ categoryLabel(detailData.category) }}
+          </el-tag>
+          <span v-else>-</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="用户名">{{ detailData.username || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="密码">
+          <el-input
+            v-if="detailData.password"
+            :model-value="detailData.password"
+            type="password"
+            readonly
+            show-password
+          />
+          <span v-else>-</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="网址">
+          <el-link
+            v-if="detailData.url"
+            type="primary"
+            :href="detailData.url"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ detailData.url }}
+          </el-link>
+          <span v-else>-</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="备注">
+          <div class="detail-remark">{{ detailData.remark || '-' }}</div>
+        </el-descriptions-item>
+        <el-descriptions-item label="创建时间">{{
+          detailData.createTime || '-'
+        }}</el-descriptions-item>
+        <el-descriptions-item label="更新时间">{{
+          detailData.updateTime || '-'
+        }}</el-descriptions-item>
+      </el-descriptions>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="detailOpen = false">关 闭</el-button>
+        </div>
+      </template>
+    </el-dialog>
 
     <!-- 新增/修改对话框 -->
     <el-dialog :title="title" v-model="open" width="550px" append-to-body>
@@ -202,6 +260,8 @@ const loading = ref(false)
 const showSearch = ref(true)
 const accountList = ref([])
 const open = ref(false)
+const detailOpen = ref(false)
+const detailData = ref({})
 const title = ref('')
 const total = ref(0)
 const ids = ref([])
@@ -309,6 +369,14 @@ function handleAdd() {
   title.value = '新增密码账号'
 }
 
+// 查看详情
+function handleView(row) {
+  getAccount(row.accountId).then((response) => {
+    detailData.value = response.data || response
+    detailOpen.value = true
+  })
+}
+
 // 修改
 function handleUpdate(row) {
   reset()
@@ -367,6 +435,20 @@ getList()
 </script>
 
 <style scoped lang="scss">
+.account-detail {
+  :deep(.el-descriptions__label) {
+    width: 100px;
+  }
+
+  :deep(.el-descriptions__content) {
+    word-break: break-all;
+  }
+}
+
+.detail-remark {
+  white-space: pre-wrap;
+}
+
 .password-cell {
   display: flex;
   align-items: center;
